@@ -1,5 +1,9 @@
 # DotNet.Streams
-.Net Stream utilities
+[![Build Status](https://img.shields.io/azure-devops/build/berdon/DotNet.Streams/4/release)](https://img.shields.io/azure-devops/build/berdon/DotNet.Streams/4/release)
+[![Nuget](https://img.shields.io/nuget/v/Berdon.DotNet.Streams)](https://www.nuget.org/packages/Berdon.DotNet.Streams/)
+
+.NET Stream utilities
+
 
 ```C#
 var stream1 = new MemoryStream(Encoding.UTF8.GetBytes("Hello"));
