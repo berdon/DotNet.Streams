@@ -12,14 +12,16 @@ namespace DotNet.Streams
         private int _streamIndex = 0;
         private long _streamPosition = 0;
         private long _mergedPosition = 0;
+        private readonly bool _disposeUnderlyingStreams;
         private bool _disposed = false;
 
-        public MergedStream(IEnumerable<Stream> streams) {
+        public MergedStream(IEnumerable<Stream> streams, bool disposeUnderlyingStreams = true) {
             _streams = streams.ToList();
             _streamIter = streams.GetEnumerator();
+            _disposeUnderlyingStreams = disposeUnderlyingStreams;
         }
 
-        public MergedStream(params Stream[] streams) : this((IEnumerable<Stream>) streams) { }
+        public MergedStream(bool disposeUnderlyingStreams = true, params Stream[] streams) : this(streams, disposeUnderlyingStreams) { }
 
         public override bool CanRead => _streams.All(x => x.CanRead);
 
@@ -130,9 +132,12 @@ namespace DotNet.Streams
                 _streamIter.Dispose();
 
                 // Dispose underlying streams
-                foreach (var stream in _streams)
+                if (_disposeUnderlyingStreams)
                 {
-                    stream.Dispose();
+                    foreach (var stream in _streams)
+                    {
+                        stream.Dispose();
+                    }
                 }
             }
 
