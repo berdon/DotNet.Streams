@@ -1,7 +1,9 @@
-# DotNet.Streams
-.Net Stream utilities
+#!/usr/bin/env dotnet-script
+#r "nuget: DotNet.Streams, 0.0.1-dev"
+using System;
+using System.IO;
+using DotNet.Streams;
 
-```C#
 var stream1 = new MemoryStream(Encoding.UTF8.GetBytes("Hello"));
 var stream2 = new MemoryStream(Encoding.UTF8.GetBytes(" "));
 var stream3 = new MemoryStream(Encoding.UTF8.GetBytes("World"));
@@ -10,9 +12,3 @@ using (var streamReader = new StreamReader(mergedStream))
 {
     Console.WriteLine(streamReader.ReadToEnd());
 }
-```
-
-```bash
-> dotnet script Samples/HelloWorld.cs
-Hello World
-```
