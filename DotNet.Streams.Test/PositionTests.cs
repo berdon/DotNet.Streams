@@ -17,7 +17,7 @@ namespace DotNet.Streams.Test
 
         [Theory]
         [ClassData(typeof(SingleToManyTestStreams))]
-        public async Task CanSeekMergedStream(MergedStream mergedStream, string expectedData)
+        public void CanSeekMergedStream(MergedStream mergedStream, string expectedData)
         {
             // Seek to the end
             mergedStream.Seek(expectedData.Length, SeekOrigin.Begin);
