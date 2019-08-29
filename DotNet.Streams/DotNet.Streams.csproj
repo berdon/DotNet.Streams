@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>DotNet.Streams</PackageId>
+    <PackageId>Berdon.DotNet.Streams</PackageId>
     <VersionPrefix>0.0.1</VersionPrefix>
     <Authors>Austin Hanson</Authors>
+    <RepositoryUrl>https://github.com/berdon/DotNet.Streams</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>
