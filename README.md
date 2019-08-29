@@ -17,6 +17,6 @@ using (var streamReader = new StreamReader(mergedStream))
 ```
 
 ```bash
-> dotnet script Samples/HelloWorld.cs
+➜ dotnet script Samples/HelloWorld.csx --verbosity e 
 Hello World
 ```
