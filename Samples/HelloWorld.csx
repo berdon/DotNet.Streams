@@ -1,5 +1,5 @@
 #!/usr/bin/env dotnet-script
-#r "nuget: DotNet.Streams, 0.0.1-dev"
+#r "nuget: Berdon.DotNet.Streams, 0.0.1-dev"
 using System;
 using System.IO;
 using DotNet.Streams;
