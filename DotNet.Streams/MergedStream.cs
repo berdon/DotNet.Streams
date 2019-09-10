@@ -42,8 +42,8 @@ namespace DotNet.Streams
         {
             if (_disposed) throw new ObjectDisposedException("underlying stream");
             if (!_streams.Any()) return 0;
-            if (_streamIndex > _streams.Count) return 0;
-            if (_mergedPosition > Length) return 0;
+            if (_streamIndex > _streams.Count) return -1;
+            if (CanSeek && _mergedPosition > Length) return -1;
             if (offset > buffer.Length) throw new IndexOutOfRangeException();
             if (offset + count > buffer.Length) throw new IndexOutOfRangeException();
 
