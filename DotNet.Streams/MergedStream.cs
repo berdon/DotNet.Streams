@@ -18,6 +18,7 @@ namespace DotNet.Streams
         public MergedStream(IEnumerable<Stream> streams, bool disposeUnderlyingStreams = true) {
             _streams = streams.ToList();
             _streamIter = streams.GetEnumerator();
+            _streamIter.MoveNext();
             _disposeUnderlyingStreams = disposeUnderlyingStreams;
         }
 
@@ -36,21 +37,21 @@ namespace DotNet.Streams
             set => Seek(value, SeekOrigin.Begin);
         }
 
-        public override void Flush() => throw new NotSupportedException();
+        public override void Flush() { }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
             if (_disposed) throw new ObjectDisposedException("underlying stream");
             if (!_streams.Any()) return 0;
-            if (_streamIndex > _streams.Count) return -1;
-            if (CanSeek && _mergedPosition > Length) return -1;
+            if (_streamIndex + 1 > _streams.Count) return 0;
+            if (CanSeek && _mergedPosition > Length) return 0;
             if (offset > buffer.Length) throw new IndexOutOfRangeException();
             if (offset + count > buffer.Length) throw new IndexOutOfRangeException();
 
             int totalBytesRead = 0;
-            while (count > 0 && _streamIter.MoveNext())
+            while (count > 0 && _streamIter.Current != null)
             {
-                int bytesRead;
+                int bytesRead = -1;
                 while (count > 0 && (bytesRead = _streamIter.Current.Read(buffer, offset, count)) > 0)
                 {
                     totalBytesRead += bytesRead;
@@ -61,8 +62,12 @@ namespace DotNet.Streams
                     offset += bytesRead;
                 }
 
-                _streamIndex++;
-                _streamPosition = 0;
+                if (bytesRead <= 0)
+                {
+                    _streamIndex++;
+                    _streamIter.MoveNext();
+                    _streamPosition = 0;
+                }
             }
 
             return totalBytesRead;

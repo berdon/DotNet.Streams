@@ -21,6 +21,17 @@ namespace DotNet.Streams.Test
 
         [Theory]
         [ClassData(typeof(SingleToManyTestStreams))]
+        public async Task CanReadToEndWithSmallBufferOneMergesStream(MergedStream mergedStream, string expectedData)
+        {
+            using (var streamReader = new StreamReader(mergedStream, Encoding.UTF8, true, 2))
+            {
+                var data = await streamReader.ReadToEndAsync();
+                Assert.Equal(expectedData, data);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(SingleToManyTestStreams))]
         public async Task CanReadMergedStreamsIncrementally(MergedStream mergedStream, string expectedData)
         {
             using (var streamReader = new StreamReader(mergedStream))
